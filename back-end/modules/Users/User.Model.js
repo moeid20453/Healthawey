@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 let saltrounds = 5;
 const mealSchema = mongoose.Schema({
   name: { type: String, required: true },
-  ingredients: [{ type: Schema.Types.ObjectId, ref: "Food" }],
+  ingredients: [{ type: mongoose.Schema.ObjectId, ref: "Food" }],
   favorite: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
 });
@@ -59,7 +59,7 @@ let UserSchema = mongoose.Schema({
   rando: {
     type: Number,
   },
-  meals: [{ type: Schema.Types.ObjectId, ref: "Meal" }],
+  meals: [{ type: mongoose.Schema.ObjectId, ref: "Meal" }],
 });
 UserSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, saltrounds);
