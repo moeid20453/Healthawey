@@ -7,6 +7,6 @@ const {
 
 app.get("/AllFood/:id", GetAllFood);
 app.post("/Food/:id", GetFood);
-app.post("/Food/AddMeal", addMeal);
+app.post("/AddMeal", addMeal);
 
 module.exports = app;
