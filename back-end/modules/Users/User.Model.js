@@ -8,8 +8,6 @@ const mealSchema = mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-const Meal = mongoose.model("Meal", mealSchema);
-
 let UserSchema = mongoose.Schema({
   name: {
     type: String,
@@ -59,7 +57,7 @@ let UserSchema = mongoose.Schema({
   rando: {
     type: Number,
   },
-  meals: [{ type: mongoose.Schema.ObjectId, ref: "Meal" }],
+  meals: [mealSchema],
 });
 UserSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, saltrounds);
