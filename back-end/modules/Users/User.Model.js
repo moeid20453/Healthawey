@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 let saltrounds = 5;
-const mealSchema = new Schema({
+const mealSchema = mongoose.Schema({
   name: { type: String, required: true },
   ingredients: [{ type: Schema.Types.ObjectId, ref: "Food" }],
   favorite: { type: Boolean, default: false },
