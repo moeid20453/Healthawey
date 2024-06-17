@@ -29,8 +29,24 @@ const GetAllFood = async (req, res) => {
     res.status(500).json({ error: "Unexpected Error" });
   }
 };
+const addMeal = async (req, res) => {
+  try {
+    let id = req.body.id;
+    let meal = req.body.meal;
+    let userWmeal = await User.addMeal(id, meal);
+    if (userWmeal.success == true) {
+      res.status(userWmeal.code).json({ userWmeal: allFood.data });
+    } else {
+      res.status(userWmeal.code).json({ error: userWmeal.error });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Unexpected Error" });
+  }
+};
 
 module.exports = {
   GetAllFood,
   GetFood,
+  addMeal,
 };

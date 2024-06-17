@@ -102,16 +102,15 @@ exports.create = async (filter) => {
 exports.update = async (_id, form) => {
   try {
     const user = await this.isExist({ _id });
-    if (user.success==true) { 
-        await User.findByIdAndUpdate({ _id }, form);
-        let userUpdate = await this.isExist({ _id });
-        console.log(userUpdate);
-        return {
-          success: true,
-          data: userUpdate.data,
-          code: 201,
-        };
-      
+    if (user.success == true) {
+      await User.findByIdAndUpdate({ _id }, form);
+      let userUpdate = await this.isExist({ _id });
+      console.log(userUpdate);
+      return {
+        success: true,
+        data: userUpdate.data,
+        code: 201,
+      };
     } else {
       return {
         success: false,
@@ -165,14 +164,34 @@ exports.remove = async (id) => {
     };
   }
 };
+exports.addMeal = async (id, meal) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { $push: { meals: meal } },
+      { new: true }
+    );
+    return {
+      success: true,
+      data: updatedUser,
+      code: 201,
+    };
+  } catch {
+    return {
+      success: false,
+      code: 500,
+      error: "Unexpected Error",
+    };
+  }
+};
 exports.comparePassword = async (email, password) => {
   try {
     email = email.toLowerCase();
     let user = await this.isExist({ email });
-    console.log(user)
+    console.log(user);
     if (user.success) {
       let match = await bcrypt.compare(password, user.data.password);
-      console.log(match)
+      console.log(match);
       if (match) {
         return {
           success: true,

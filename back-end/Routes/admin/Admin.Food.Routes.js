@@ -1,11 +1,12 @@
 const app = require("express").Router();
 const {
   GetAllFood,
-  GetFood
+  GetFood,
+  addFoodItem,
 } = require("../../controllers/admin/Food.controller");
 
-app.post("/AllFood", GetAllFood);
+app.get("/AllFood/:id", GetAllFood);
 app.post("/Food/:id", GetFood);
-
+app.post("/Food/AddFood", addFoodItem);
 
 module.exports = app;
