@@ -18,7 +18,6 @@ const GetAllFood = async (req, res) => {
   try {
     let page = req.params.id;
     let allFood = await Food.getAll(page);
-    console.log(allFood);
     if (allFood.success == true) {
       res.status(allFood.code).json({ allFood: allFood.data });
     } else {
