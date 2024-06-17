@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 let saltrounds = 5;
 const mealSchema = mongoose.Schema({
   name: { type: String, required: true },
-  items: [{ type: Array }],
+  items: { type: Array },
   totalWater: { type: Number },
   totalCal: { type: Number },
   totalPro: { type: Number },

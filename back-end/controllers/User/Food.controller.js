@@ -1,4 +1,5 @@
 const Food = require("../../modules/Food/Food.service");
+const User = require("../../modules/Users/User.service");
 
 const GetFood = async (req, res) => {
   try {
@@ -28,6 +29,20 @@ const GetAllFood = async (req, res) => {
     res.status(500).json({ error: "Unexpected Error" });
   }
 };
+const getUserMeals = async (req, res) => {
+  try {
+    let id = req.body.id;
+    let user = await User.get({ id: id });
+    let usermeals = user.data.meals;
+    if (user.success == true) {
+      res.status(user.code).json({ userMeals: usermeals });
+    } else {
+      res.status(user.code).json({ user: user.error });
+    }
+  } catch (error) {
+    res.status(user.code).json({ user: user.error });
+  }
+};
 const addMeal = async (req, res) => {
   try {
     let id = req.body.id;
@@ -48,4 +63,5 @@ module.exports = {
   GetAllFood,
   GetFood,
   addMeal,
+  getUserMeals,
 };
