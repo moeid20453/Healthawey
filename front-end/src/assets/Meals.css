@@ -1,0 +1,375 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family:  sans-serif;
+    box-sizing: border-box;
+    scrollbar-width: none;
+}
+.body3{
+  background-color: aliceblue !important;
+}
+header{
+    position: relative;
+    box-shadow: 0 5px 5px rgba(0,0, 0, 0.1);
+    background:#fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 80px;
+}
+.btn2{
+  text-decoration: none;
+  margin-top: -10px;
+  margin-left: 10px;
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    border: 0;
+    padding: 20px 30px;
+    border-radius: 6px;
+    width: 300px;
+    height: 30px;
+    background-color: darkgreen;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+.logo>img{
+    margin-top: 10px;
+    margin-left:70px;
+    width: 150px;
+    height: 60px;
+}
+
+.navbar{
+    margin-right: 100px;
+    font-size: 20px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-around;
+    width: 30%;
+}
+.navbar>.nav{
+    color:#aaa; 
+    text-decoration: none;
+}
+.navbar>a:hover{
+  color:black; 
+  text-decoration: none;
+} 
+header>div{
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+}
+header>div>.weight{
+  margin-top: 2px;
+  margin-bottom: 5px;
+  width: 150px;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #74afb9;
+
+          font-size: 18px;
+}
+header>div>.weight>.numofweight{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5px;
+  background-color: #a0c8cf;
+  border-radius: 50px;
+  width: 50%;
+  height: 40%;
+}
+.BC{
+    height: 500px;
+    background:url(../img/plans.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.meal{
+     margin-top: -170px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    
+}
+.Breakfast{
+    border-radius: 50px;
+    height: 450px;
+    width: 300px;
+    background:url(../img/Breakfast.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.Lunch{
+    border-radius: 50px;
+    height: 450px;
+    width: 300px;
+    background:url(../img/Lunch.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+
+}
+.Dinner{
+    border-radius: 50px;
+    height: 450px;
+    width: 300px;
+    background:url(../img/Dinner.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.meal>div>div{
+color: aliceblue;
+display: flex;
+cursor: pointer;
+justify-content: center;
+ align-items: center;
+border-radius: 50px;
+width: 100%;
+height: 100%;
+/* background-color: rgba(255,0,0, 0.5) ; */
+font-size: 50px;
+}
+.meal>div>div:hover{
+background-color: rgba(255,0,0, 0.5) ;
+}
+.BreakfastTitle{
+    margin-top: 200px;
+    font-weight: bold;
+    font-size: 20px;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.BreakfastTitle>div>div>h1{
+    color: red;
+    font-size: 90px;
+}
+.BreakfastTitle>div:nth-child(1){
+    width: 45%;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+}
+
+.BreakfastTitle>div:nth-child(2){
+    width: 40%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+.BreakfastTitle>div>img{
+    border-radius: 50px;
+    width: 350px;
+    height: 200px;
+}
+.BreakfastTitle>div>img:nth-child(1){
+    margin-top: 150px;
+    margin-left: 30px;
+    animation-name: up-and-down1;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+
+.BreakfastTitle>div>img:nth-child(2){
+    margin-top: 50px;
+    margin-left: -100px;
+    animation-name: up-and-down2;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+
+.BreakfastTitle>div>img:nth-child(3){
+    margin-top: 100px;
+    margin-left: -100px;
+    animation-name: up-and-down3;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes up-and-down1{
+    to{
+        margin-top: 180px;
+    }
+}
+@keyframes up-and-down2{
+    to{
+        margin-top: 80px;
+    }
+}
+@keyframes up-and-down3{
+    to{
+        margin-top: 130px;
+    }
+}
+
+
+
+
+.LunchTitle{
+    margin-top: 100px;
+    font-weight: bold;
+    font-size: 20px;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.LunchTitle>div>div>h1{
+    color: red;
+    font-size: 90px;
+}
+.LunchTitle>div:nth-child(2){
+    margin-left: -40px;
+    width: 40%;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+}
+
+.LunchTitle>div:nth-child(1){
+    width: 40%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+.LunchTitle>div>img{
+    border-radius: 50px;
+    width: 350px;
+    height: 200px;
+}
+.LunchTitle>div>img:nth-child(1){
+    margin-top: 150px;
+    margin-left: -80px;
+    animation-name: up-and-down1;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+
+.LunchTitle>div>img:nth-child(2){
+    margin-top: 50px;
+    margin-left: -150px;
+    animation-name: up-and-down2;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+
+.LunchTitle>div>img:nth-child(3){
+    margin-top: 100px;
+    margin-left: -100px;
+    animation-name: up-and-down3;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes up-and-down1{
+    to{
+        margin-top: 180px;
+    }
+}
+@keyframes up-and-down2{
+    to{
+        margin-top: 80px;
+    }
+}
+@keyframes up-and-down3{
+    to{
+        margin-top: 130px;
+    }
+}
+
+
+
+.DinnerTitle{
+    margin-top: 200px;
+    font-weight: bold;
+    font-size: 20px;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.DinnerTitle>div>div>h1{
+    color: red;
+    font-size: 90px;
+}
+.DinnerTitle>div:nth-child(1){
+    width: 40%;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+}
+
+.DinnerTitle>div:nth-child(2){
+    width: 40%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+.DinnerTitle>div>img{
+    border-radius: 50px;
+    width: 350px;
+    height: 200px;
+}
+.DinnerTitle>div>img:nth-child(1){
+    margin-top: 150px;
+    margin-left: 30px;
+    animation-name: up-and-down1;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+
+.DinnerTitle>div>img:nth-child(2){
+    margin-top: 50px;
+    margin-left: -100px;
+    animation-name: up-and-down2;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+
+.DinnerTitle>div>img:nth-child(3){
+    margin-top: 100px;
+    margin-left: -100px;
+    animation-name: up-and-down3;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes up-and-down1{
+    to{
+        margin-top: 180px;
+    }
+}
+@keyframes up-and-down2{
+    to{
+        margin-top: 80px;
+    }
+}
+@keyframes up-and-down3{
+    to{
+        margin-top: 130px;
+    }
+}
