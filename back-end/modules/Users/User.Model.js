@@ -4,7 +4,7 @@ let saltrounds = 5;
 const mealSchema = new Schema({
   name: { type: String, required: true },
   ingredients: [{ type: Schema.Types.ObjectId, ref: "Food" }],
-  favorite: { type: Boolean, default: true },
+  favorite: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
 });
 
