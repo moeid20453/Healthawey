@@ -1,8 +1,12 @@
 const Food = require("./Food.Model");
 
-exports.isExist = async (filter) => {
+exports.isExist = async (filter, page) => {
   try {
-    const resault = await Food.find({ $text: { $search: filter } }).toArray();
+    let limit = 20;
+    const skip = (page - 1) * limit;
+    const resault = await Food.find({ $text: { $search: filter } })
+      .skip(skip)
+      .limit(limit);
     if (resault) {
       return {
         success: true,
