@@ -23,7 +23,7 @@ let FoodSchema = mongoose.Schema({
     type: Number,
   },
   Short_Description: {
-    type: String,
+    type: Text,
   },
   Sugar_Tot_In_Grams: {
     type: Number,
@@ -32,6 +32,7 @@ let FoodSchema = mongoose.Schema({
     type: Number,
   },
 });
+FoodSchema.index({ Short_Description: "text" });
 
 let FoodModel = mongoose.model("Food", FoodSchema);
 
