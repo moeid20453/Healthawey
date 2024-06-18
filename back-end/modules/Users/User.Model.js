@@ -8,7 +8,6 @@ const mealSchema = mongoose.Schema({
   totalCal: { type: Number },
   totalPro: { type: Number },
   totalLipid: { type: Number },
-  totalAsh: { type: Number },
   totalCar: { type: Number },
   totalFiber: { type: Number },
   totalSugar: { type: Number },

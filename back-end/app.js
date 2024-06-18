@@ -12,7 +12,8 @@ var cors = require("cors");
 
 app.use(cors());
 
-// const AdminRoutes = require("./Routes/Admin.Routes");
+const AdminRoutes = require("./Routes/admin/Admin.Auth.Routes");
+const AdminFoodRoutes = require("./Routes/admin/Admin.Food.Routes");
 const UserRoutes = require("./Routes/User/User.Auth.Routes");
 const UserFoodRoutes = require("./Routes/User/User.Food.Routes");
 
@@ -20,7 +21,8 @@ app.use(express.static(staticFiles));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 
-// app.use("/Admin", AdminRoutes);
+app.use("/Admin/auth", AdminRoutes);
+app.use("/Admin", AdminFoodRoutes);
 app.use("/User", UserRoutes);
 app.use("/User/Food", UserFoodRoutes);
 

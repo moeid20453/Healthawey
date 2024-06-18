@@ -67,3 +67,21 @@ exports.getAll = async (page) => {
     };
   }
 };
+exports.addFood = async (form) => {
+  try {
+    const newItem = new Food(form);
+    await newItem.save();
+    return {
+      success: true,
+      data: newItem,
+      code: 201,
+    };
+  } catch (err) {
+    console.log("error message", err.message);
+    return {
+      success: false,
+      code: 500,
+      error: "Unexpected Error !",
+    };
+  }
+};

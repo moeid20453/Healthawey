@@ -13,6 +13,21 @@ const GetFood = async (req, res) => {
     res.status(500).json({ error: "Unexpected Error while finding Food" });
   }
 };
+const searchFood = async (req, res) => {
+  try {
+    let filter = req.body.search;
+    let page = req.params.id;
+    let food = await Food.isExist(filter, page);
+    if (food.success == true) {
+      res.status(food.code).json({ food: food.data });
+    } else {
+      res.status(food.code).json({ food: food.data });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "unexpected error" });
+  }
+};
 
 const GetAllFood = async (req, res) => {
   try {
@@ -41,6 +56,7 @@ const addFoodItem = async (req, res) => {
 };
 
 module.exports = {
+  searchFood,
   GetAllFood,
   GetFood,
   addFoodItem,
