@@ -47,8 +47,8 @@ const GetAllFood = async (req, res) => {
 };
 const getUserMeals = async (req, res) => {
   try {
-    let id = req.body.id;
-    let user = await User.get({ id: id });
+    let id = req.params.id;
+    let user = await User.get({ _id: id });
     let usermeals = user.data.meals;
     if (user.success == true) {
       res.status(user.code).json({ userMeals: usermeals });
@@ -56,7 +56,7 @@ const getUserMeals = async (req, res) => {
       res.status(user.code).json({ user: user.error });
     }
   } catch (error) {
-    res.status(user.code).json({ user: user.error });
+    res.status(500).json({ error: "unexpected error" });
   }
 };
 const addMeal = async (req, res) => {
@@ -65,7 +65,7 @@ const addMeal = async (req, res) => {
     let meal = req.body.meal;
     let userWmeal = await User.addMeal(id, meal);
     if (userWmeal.success == true) {
-      res.status(userWmeal.code).json({ userWmeal: allFood.data });
+      res.status(userWmeal.code).json({ userWmeal: userWmeal.data });
     } else {
       res.status(userWmeal.code).json({ error: userWmeal.error });
     }

@@ -9,7 +9,7 @@ const {
 
 app.get("/AllFood/:id", GetAllFood);
 app.post("/:id", GetFood);
-app.post("/AddMeal", addMeal);
+app.post("/Meal/AddMeal", addMeal);
 app.post("/UserMeals", getUserMeals);
 app.post("/searchFood/:id", searchFood);
 
