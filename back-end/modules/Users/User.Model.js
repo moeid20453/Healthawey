@@ -58,7 +58,7 @@ let UserSchema = mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["admin", "user", "superAdmin"],
+    enum: ["admin", "user"],
     default: "user",
   },
   rando: {
