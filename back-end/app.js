@@ -24,7 +24,6 @@ const AdminUserRoutes = require("./Routes/admin/Admin.User.Routes");
 const UserRoutes = require("./Routes/User/User.Auth.Routes");
 const UserFoodRoutes = require("./Routes/User/User.Food.Routes");
 
-app.use(express.static(staticFiles));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.json());
@@ -40,9 +39,8 @@ app.use("/results", express.static("results"));
 //prediction
 
 app.post("/predict", upload.single("file"), async (req, res) => {
+  const filePath = req.file.path;
   try {
-    const filePath = req.file.path;
-
     // Create form data
     const form = new FormData();
     form.append("file", fs.createReadStream(filePath));
@@ -52,26 +50,17 @@ app.post("/predict", upload.single("file"), async (req, res) => {
       headers: form.getHeaders(),
     });
 
+    const { predictions, image, info } = response.data;
+    console.log(info);
+
     // Save the image with detections
     const imageFilePath = path.join(__dirname, "results", "result.jpg");
-    const imageResponse = await axios({
-      url: `http://127.0.0.1:5000/result.jpg`,
-      method: "GET",
-      responseType: "stream",
-    });
+    const imageBuffer = Buffer.from(image, "base64");
+    fs.writeFileSync(imageFilePath, imageBuffer);
 
-    const writer = fs.createWriteStream(imageFilePath);
-    imageResponse.data.pipe(writer);
-
-    writer.on("finish", () => {
-      res.json({
-        predictions: response.data.predictions,
-        image_url: `/results/result.jpg`,
-      });
-    });
-
-    writer.on("error", (err) => {
-      res.status(500).json({ error: err.message });
+    res.json({
+      predictions: predictions,
+      image_url: `/results/result.jpg`,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -7,7 +7,7 @@ const {
 } = require("../../controllers/admin/User.Controller");
 
 app.post("/user", getUser);
-app.post("/AllUsers", getAllUsers);
-app.delete("/delete/user", deleteUser);
+app.get("/AllUsers", getAllUsers);
+app.delete("/delete/user/:id", deleteUser);
 
 module.exports = app;

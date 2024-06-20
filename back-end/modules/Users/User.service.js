@@ -130,7 +130,7 @@ exports.update = async (_id, form) => {
 
 exports.remove = async (id) => {
   try {
-    const user = await this.isExist({ id });
+    const user = await this.isExist({ _id: id });
     if (user.success) {
       if (user.data.role == "user") {
         await User.findByIdAndDelete({ id });

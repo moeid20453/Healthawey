@@ -2,10 +2,10 @@ const User = require("../../modules/Users/User.service");
 
 const deleteUser = async (req, res) => {
   try {
-    const id = req.body.id;
+    const id = req.params.id;
     let deletedUser = await User.remove(id);
     if (deletedUser.success == true) {
-      res.status(deletedUser.code).json(deletedUser.record);
+      res.status(deletedUser.code).json(deletedUser.data);
     } else {
       res.status(deletedUser.code).json(deletedUser.error);
     }
@@ -19,7 +19,7 @@ const getUser = async (req, res) => {
     let id = req.body.id;
     let user = await User.get({ _id: id });
     if (user.success == true) {
-      res.status(user.code).json(user.record);
+      res.status(user.code).json(user.data);
     } else {
       res.status(user.code).json(user.error);
     }
@@ -33,7 +33,7 @@ const getAllUsers = async (req, res) => {
     let role = "user";
     let list = await User.list({ role: role });
     if (list.success == true) {
-      res.status(list.code).json({ user: list.record });
+      res.status(list.code).json({ user: list.data });
     } else {
       res.status(list.code).json({ error: list.error });
     }
