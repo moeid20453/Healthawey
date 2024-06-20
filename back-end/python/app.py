@@ -50,7 +50,7 @@ def predict():
     name = request.form.get('name')
     logging.info(name)
     img_bytes = file.read()
-    image_path = 'F:\Healthawey/back-end/results'
+    image_path = '../back-end/results'
     predictions  = get_predictions_and_image(img_bytes, name ,image_path)
     
     return jsonify({'predictions': predictions})

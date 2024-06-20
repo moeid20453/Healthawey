@@ -184,6 +184,26 @@ exports.addMeal = async (id, meal) => {
     };
   }
 };
+exports.removeMeal = async (userid, mealid) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      { _id: userid },
+      { $pull: { meals: mealid } }
+    );
+
+    return {
+      success: true,
+      data: user,
+      code: 201,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      code: 500,
+      error: "Unexpected Error",
+    };
+  }
+};
 exports.comparePassword = async (email, password) => {
   try {
     email = email.toLowerCase();

@@ -74,6 +74,21 @@ const addMeal = async (req, res) => {
     res.status(500).json({ error: "Unexpected Error" });
   }
 };
+const removeMeal = async (req, res) => {
+  try {
+    let id = req.body.userid;
+    let mealid = req.body.mealid;
+    const newuser = await User.removeMeal(id, mealid);
+    if (newuser.success == true) {
+      res.status(newuser.code).json({ user: newuser.data });
+    } else {
+      res.status(newuser.code).json({ user: newuser.error });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Unexpected Error" });
+  }
+};
 
 module.exports = {
   searchFood,
@@ -81,4 +96,5 @@ module.exports = {
   GetFood,
   addMeal,
   getUserMeals,
+  removeMeal,
 };
