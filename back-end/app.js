@@ -4,7 +4,6 @@ let path = require("path");
 require("dotenv").config();
 let connection = require("./database/Connection.db");
 connection();
-let staticFiles = path.join(__dirname, "public");
 let bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
@@ -23,6 +22,10 @@ const AdminFoodRoutes = require("./Routes/admin/Admin.Food.Routes");
 const AdminUserRoutes = require("./Routes/admin/Admin.User.Routes");
 const UserRoutes = require("./Routes/User/User.Auth.Routes");
 const UserFoodRoutes = require("./Routes/User/User.Food.Routes");
+const PredictionRoutes = require("./Routes/predection/prediction.routes");
+
+const appPath = path.join(__dirname, "results");
+const normalizedAppPath = appPath.replace(/\\/g, "/");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -35,41 +38,9 @@ app.use("/User", UserRoutes);
 app.use("/User/Food", UserFoodRoutes);
 
 app.use("/results", express.static("results"));
+app.use("", PredictionRoutes);
 
 //prediction
-
-app.post("/predict", upload.single("file"), async (req, res) => {
-  const filePath = req.file.path;
-  try {
-    // Create form data
-    const form = new FormData();
-    form.append("file", fs.createReadStream(filePath));
-
-    // Make request to Python server
-    const response = await axios.post("http://127.0.0.1:5000/predict", form, {
-      headers: form.getHeaders(),
-    });
-
-    const { predictions, image, info } = response.data;
-    console.log(info);
-
-    // Save the image with detections
-    const imageFilePath = path.join(__dirname, "results", "result.jpg");
-    const imageBuffer = Buffer.from(image, "base64");
-    fs.writeFileSync(imageFilePath, imageBuffer);
-
-    res.json({
-      predictions: predictions,
-      image_url: `/results/result.jpg`,
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  } finally {
-    fs.unlink(filePath, (err) => {
-      if (err) console.error("Error removing file:", err);
-    });
-  }
-});
 
 app.listen(process.env.PORT, () => {
   console.log(`server is running on port ${process.env.PORT}`);
