@@ -77,7 +77,7 @@ const addMeal = async (req, res) => {
 const removeMeal = async (req, res) => {
   try {
     let id = req.body.userid;
-    let mealid = req.body.mealid;
+    let mealid = req.params.id;
     const newuser = await User.removeMeal(id, mealid);
     if (newuser.success == true) {
       res.status(newuser.code).json({ user: newuser.data });

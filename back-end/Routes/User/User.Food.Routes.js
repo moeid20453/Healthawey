@@ -11,7 +11,7 @@ const {
 app.get("/AllFood/:id", GetAllFood);
 app.post("/:id", GetFood);
 app.post("/Meal/AddMeal", addMeal);
-app.post("/Meal/Remove", removeMeal);
+app.post("/Meal/Remove/:id", removeMeal);
 app.post("/UserMeals", getUserMeals);
 app.post("/searchFood/:id", searchFood);
 
