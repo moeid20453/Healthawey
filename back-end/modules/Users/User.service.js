@@ -188,7 +188,7 @@ exports.removeMeal = async (userid, mealid) => {
   try {
     const user = await User.findByIdAndUpdate(
       { _id: userid },
-      { $pull: { meals: mealid } }
+      { $pull: { meals: { _id: mealid } } }
     );
 
     return {
