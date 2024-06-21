@@ -3,112 +3,134 @@ import "../assets/reg.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import LoadingSubmit from "../components/Loading/Loading";
+import Cookies from "js-cookie";
+
 export default function SignUp() {
-  const idUser = localStorage.getItem("id");
-  const email = localStorage.getItem("email")
+  const idUser = Cookies.get("id");
   const [password, setPassword] = useState("");
   const [cPassword, setCpassword] = useState("");
   const [accept, setAccept] = useState(false);
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const maxLength = 20;
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (password.length < minLength) {
+      return `Password must be at least ${minLength} characters long.`;
+    }
+    if (password.length > maxLength) {
+      return `Password must be no more than ${maxLength} characters long.`;
+    }
+    if (!regex.test(password)) {
+      return "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
+    }
+    return "";
+  };
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    if (accept) {
+      const validationMessage = validatePassword(newPassword);
+      setErr(validationMessage);
+    }
+  };
+
   async function submit(e) {
-    let flag = true;
     e.preventDefault();
     setAccept(true);
     setLoading(true);
-    if (
-      password.length < 8 ||
-      cPassword !== password
-    ) {
-      flag = false;
-    } else flag = true;
-    try {
-      if (flag) {
-        let res = await axios.post(
-          `http://localhost:4500/User/update${idUser}`,
-          {
-            user: {
-              password: password,
-            }
-},
-        );
-        setLoading(false);
-        let user = res.data;
-        console.log(user);
-        // console.log(res.data)
-        if (res.status === 201) {
-          window.localStorage.setItem("name", user.name);
-          window.localStorage.setItem("age", user.age);
-          window.localStorage.setItem("username", user.username);
-          window.localStorage.setItem("email", user.email);
-          window.localStorage.setItem("weight", user.weight);
-          window.localStorage.setItem("height", user.height);
-          window.localStorage.setItem("activity", user.activity);
-          window.localStorage.setItem("gender", user.gender);
-          window.location.pathname = "/home";
-        }
-      }
-    } catch (err) {
-        setErr("Internal server Err");
-      }
+
+    const passwordValidationMessage = validatePassword(password);
+
+    if (passwordValidationMessage !== "" || cPassword !== password) {
+      setErr(passwordValidationMessage || "Passwords do not match");
       setLoading(false);
+      return;
     }
 
-    return (
-      <>
-        {loading && <LoadingSubmit />}
-        <div className="container">
-          <div className="row h-100">
-            <form className="form" onSubmit={submit}>
-              <div className="custom-form2">
-                <h1>New Password</h1>
+    try {
+      let res = await axios.post(`http://localhost:4500/User/update${idUser}`, {
+        user: {
+          password: password,
+        },
+      });
+      setLoading(false);
+      let user = res.data;
+      if (res.status === 201) {
+        Cookies.set("id", user._id);
+        Cookies.set("name", user.name);
+        Cookies.set("age", user.age);
+        Cookies.set("username", user.username);
+        Cookies.set("email", user.email);
+        Cookies.set("weight", user.weight);
+        Cookies.set("height", user.height);
+        Cookies.set("activity", user.activity);
+        Cookies.set("gender", user.gender);
+        Cookies.set("role", user.role, { httpOnly: false, secure: true });
+        window.location.pathname = "/home";
+      }
+    } catch (err) {
+      setErr("Internal server error");
+      setLoading(false);
+    }
+  }
 
-                <div className="form-control">
-                  <input
-                    id="Pass"
-                    type="password"
-                    placeholder="Password"
-                    minLength={7}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                  <label htmlFor="password">Password</label>
-                </div>
+  return (
+    <>
+      {loading && <LoadingSubmit />}
+      <div className="container">
+        <div className="row h-100">
+          <form className="form" onSubmit={submit}>
+            <div className="custom-form2">
+              <h1>New Password</h1>
 
-                <div className="form-control">
-                  <input
-                    id="Cpass"
-                    type="password"
-                    placeholder="confirm Password"
-                    value={cPassword}
-                    onChange={(e) => setCpassword(e.target.value)}
-                    required
-                  />
-                  <label htmlFor="cPassword">Confirm password</label>
-                  {/* {cPassword !== password && accept && (
-                <p className="error">password doesn't match</p>
-              )} */}
-                </div>
-
-                <button className="btn2 btn-primary" type="submit">
-                  Confirm
-                </button>
-                {err !== "" && <span className="error">{err}</span>}
-                {cPassword !== password && accept && (
-                  <span className="error">password doesn't match</span>
-                )}
-                <p className="acc2">
-                  Back to{" "}
-                  <Link className="login" to="/login">
-                    {" "}
-                    Login
-                  </Link>
-                </p>
+              <div className="form-control">
+                <input
+                  id="Pass"
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  required
+                />
+                <label htmlFor="password">Password</label>
               </div>
-            </form>
-          </div>
+
+              <div className="form-control">
+                <input
+                  id="Cpass"
+                  type="password"
+                  placeholder="Confirm Password"
+                  value={cPassword}
+                  onChange={(e) => setCpassword(e.target.value)}
+                  required
+                />
+                <label htmlFor="cPassword">Confirm password</label>
+              </div>
+
+              <button className="btn2 btn-primary" type="submit">
+                Confirm
+              </button>
+              {err !== "" && <span className="error">{err}</span>}
+              {cPassword !== password && accept && (
+                <span className="error">Passwords do not match</span>
+              )}
+              <p className="acc2">
+                Back to{" "}
+                <Link className="login" to="/login">
+                  {" "}
+                  Login
+                </Link>
+              </p>
+            </div>
+          </form>
         </div>
-      </>
-    );
+      </div>
+    </>
+  );
 }

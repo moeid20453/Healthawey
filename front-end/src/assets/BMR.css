@@ -92,7 +92,7 @@ h1 {
 
 .calculator button {
     margin-left: 60px;
-    width: 30%;
+    width: 100%;
     border-radius: 5px;
     border: none;
     cursor: pointer;
@@ -125,6 +125,11 @@ h1 {
 
 #age {
     margin-left: 60px;
+}
+
+#bmr{
+    font-size: 30px;
+    color: white;
 }
 
 .select2 {

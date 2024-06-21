@@ -1,11 +1,11 @@
-
 import { useState } from "react";
 import "../assets/reg.css";
-// import axios from "axios";
+import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import LoadingSubmit from "../components/Loading/Loading";
 export default function OTP() {
+      const [err, setErr] = useState("");
 const [otp ,setOtp] = useState(new Array(4).fill(""))
     function handelchange(e,index) {
         if (isNaN(e.target.value)) return false
@@ -16,7 +16,10 @@ const [otp ,setOtp] = useState(new Array(4).fill(""))
             e.target.nextSibling.focus()
         }
 }
-  
+    const OTPT = otp[0] + otp[1] + otp[2] + otp[3];
+    const email = Cookies.get("email");
+
+    const [loading, setLoading] = useState(false);
    const OTP =  otp.map((data, i) => {
        return (
          <input
@@ -28,17 +31,12 @@ const [otp ,setOtp] = useState(new Array(4).fill(""))
          />
        );
    });
-  const OTPT = otp[0] + otp[1] + otp[2] + otp[3];
-  console.log(OTPT)
-  const email = localStorage.getItem("email")
-  const [err, setErr] = useState("");
-  const [loading, setLoading] = useState(false);
 
   async function submit(e) {
     let flag = true;
     e.preventDefault();
     setLoading(true);
-    if (email === "") {
+    if (otp.nextSibling === "") {
       flag = false;
     } else flag = true;
     try {
@@ -52,15 +50,17 @@ const [otp ,setOtp] = useState(new Array(4).fill(""))
         setLoading(false);
         let user = res.data;
         if (res.status === 201) {
-          window.localStorage.setItem("username", user.username);
+          Cookies.set("username", user.username);
+          Cookies.set("id", user.id);
+
           window.location.pathname = "/newpassword";
         }
       }
     } catch (err) {
-      if (err.response.status === 409) {
-        setErr("Email or Password not valid");
+      if (err.response.status === 400) {
+        setErr("Error OTP");
       } else {
-        setErr("Internal server Err");
+        setErr("Error OTP");
       }
       setLoading(false);
     }
@@ -75,8 +75,9 @@ const [otp ,setOtp] = useState(new Array(4).fill(""))
               <h1>Forget Password</h1>
               <div className="otp-area">{OTP}</div>
               <button className="btn2 btn-primary" type="submit">
-                Send Mail
+                Send OTP
               </button>
+              {err !== "" && <span className="error">{err}</span>}
               <p className="acc2">
                 I'm already have an account{" "}
                 <Link className="login" to="/login">

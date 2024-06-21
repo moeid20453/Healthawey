@@ -131,9 +131,10 @@ exports.update = async (_id, form) => {
 exports.remove = async (id) => {
   try {
     const user = await this.isExist({ _id: id });
+    console.log(user);
     if (user.success) {
       if (user.data.role == "user") {
-        await User.findByIdAndDelete({ id });
+        await User.findByIdAndDelete(id );
 
         return {
           success: true,
@@ -141,7 +142,7 @@ exports.remove = async (id) => {
           code: 200,
         };
       } else {
-        await User.findByIdAndDelete({ id });
+        await User.findByIdAndDelete( id );
         return {
           success: true,
           data: user,

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import "../assets/reg.css";
+import Cookies from "js-cookie";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import LoadingSubmit from "../components/Loading/Loading";
+
 export default function SignUp() {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
@@ -15,18 +17,46 @@ export default function SignUp() {
   const [activity, setActivity] = useState("");
   const [gender, setGender] = useState("");
   const [accept, setAccept] = useState(false);
-  const [err, setErr] = useState("")
-  const [loading,setLoading] = useState(false)
-  
+  const [err, setErr] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const maxLength = 20;
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (password.length < minLength) {
+      return `Password must be at least ${minLength} characters long.`;
+    }
+    if (password.length > maxLength) {
+      return `Password must be no more than ${maxLength} characters long.`;
+    }
+    if (!regex.test(password)) {
+      return "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
+    }
+    return "";
+  };
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    if (accept) {
+      const validationMessage = validatePassword(newPassword);
+      setErr(validationMessage);
+    }
+  };
+
   async function submit(e) {
-    let flag = true;
     e.preventDefault();
     setAccept(true);
-    setLoading(true)
+    setLoading(true);
+    const passwordValidationMessage = validatePassword(password);
+
     if (
       name === "" ||
       email === "" ||
-      password.length < 8 ||
+      passwordValidationMessage !== "" ||
       cPassword !== password ||
       age === "" ||
       weight === "" ||
@@ -34,47 +64,50 @@ export default function SignUp() {
       activity === "" ||
       gender === ""
     ) {
-      flag = false;
-    } else flag = true;
+      setErr(
+        passwordValidationMessage 
+      );
+      setLoading(false);
+      return;
+    }
+
     try {
-      if (flag) {
-        let res = await axios.post("http://localhost:4500/User/register", {
-          user: {
-            name: name,
-            age: age,
-            username: username,
-            email: email,
-            weight: weight,
-            height: height,
-            password: password,
-            activity: activity,
-            gender: gender,
-          },
-        });
-        setLoading(false)
-        let user = res.data.user.data;
-        if (res.status === 201) {
-          window.localStorage.setItem("name", user.name);
-          window.localStorage.setItem("age", user.age);
-          window.localStorage.setItem("username", user.username);
-          window.localStorage.setItem("email", user.email);
-          window.localStorage.setItem("weight", user.weight);
-          window.localStorage.setItem("height", user.height);
-          window.localStorage.setItem("activity", user.activity);
-          window.localStorage.setItem("gender", user.gender);
-          window.location.pathname = "/home";
-        }
+      let res = await axios.post("http://localhost:4500/User/register", {
+        user: {
+          name: name,
+          age: age,
+          username: username,
+          email: email,
+          weight: weight,
+          height: height,
+          password: password,
+          activity: activity,
+          gender: gender,
+        },
+      });
+      setLoading(false);
+      let user = res.data.user.data;
+      if (res.status === 201) {
+        Cookies.set("name", user.name);
+        Cookies.set("age", user.age);
+        Cookies.set("username", user.username);
+        Cookies.set("email", user.email);
+        Cookies.set("weight", user.weight);
+        Cookies.set("height", user.height);
+        Cookies.set("activity", user.activity);
+        Cookies.set("gender", user.gender);
+        window.location.pathname = "/home";
       }
     } catch (err) {
       if (err.response.status === 409) {
-        setErr("Email is already been taken")
-      }
-      else {
-        setErr("Internal server Err")
+        setErr("Email is already been taken");
+      } else {
+        setErr("Internal server Error");
       }
       setLoading(false);
     }
   }
+
   return (
     <>
       {loading && <LoadingSubmit />}
@@ -160,9 +193,8 @@ export default function SignUp() {
                   id="Pass"
                   type="password"
                   placeholder="Password"
-                  minLength={7}
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={handlePasswordChange}
                   required
                 />
                 <label htmlFor="password">Password</label>
@@ -178,13 +210,10 @@ export default function SignUp() {
                   required
                 />
                 <label htmlFor="cPassword">Confirm password</label>
-                {/* {cPassword !== password && accept && (
-                <p className="error">password doesn't match</p>
-              )} */}
               </div>
 
               <div className="form-control">
-                <label htmlFor="gender">Activity </label>
+                <label htmlFor="activity">Activity </label>
                 <select
                   id="Activity"
                   value={activity}
@@ -217,20 +246,20 @@ export default function SignUp() {
                   onChange={(e) => setGender(e.target.value)}
                   required
                 >
-                  <option value="">selcet your gender</option>
+                  <option value="">select your gender</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                 </select>
               </div>
               <button className="btn2 btn-primary" type="submit">
-                sign up
+                Sign up
               </button>
-              {err !== "" && <span className="error">{err}</span>}
+              {err && <span className="error">{err}</span>}
               {cPassword !== password && accept && (
-                <span className="error">password doesn't match</span>
+                <span className="error">Passwords do not match</span>
               )}
               <p className="acc2">
-                I'm already have an account{" "}
+                I already have an account{" "}
                 <Link className="login" to="/login">
                   {" "}
                   Login

@@ -1,48 +1,33 @@
 import { useState } from "react";
 import "../../assets/reg.css";
 import axios from "axios";
-// import img from "../../img/avatar1.avif"
+import Cookies from "js-cookie";
+
 export default function EditProfile() {
-  const [image, setImage] = useState('')
-function getLastSegment(image) {
-  const segments = image.split("\\");
-  return segments.pop(""); // returns the last segment
-  }
-  const lastsegment = getLastSegment(image) 
-  const img =`../../img/${lastsegment}`
-  const imgSrc = img
-  console.log(image)
-  // function handelApi() {
-  //   const fromData = new fromData()
-  //   formData.append('image',image)
-  // }
-//   function handelImage(e) {
-// console.log(e.target.files)
-//     setImage(e.target.files[0])
-//   }
-  const idUser = localStorage.getItem("id");
-   const nameUser = localStorage.getItem("name");
-   const ageUser = localStorage.getItem("age");
-   const usernameUser = localStorage.getItem("username");
-   const emailUser = localStorage.getItem("email");
-   const weightUser = localStorage.getItem("weight");
-   const heightUser = localStorage.getItem("height");
-   const activityUser = localStorage.getItem("activity");
-   const genderUser = localStorage.getItem("gender");
+  const idUser = Cookies.get("id");
+  const nameUser = Cookies.get("name");
+  const ageUser = Cookies.get("age");
+  const usernameUser = Cookies.get("username");
+  const weightUser = Cookies.get("weight");
+  const heightUser = Cookies.get("height");
+  const activityUser = Cookies.get("activity");
+  const genderUser = Cookies.get("gender");
+
   const [name, setName] = useState(nameUser);
   const [age, setAge] = useState(ageUser);
   const [username, setUsername] = useState(usernameUser);
-  const [email, setEmail] = useState(emailUser);
   const [weight, setWeight] = useState(weightUser);
   const [height, setHeight] = useState(heightUser);
   const [activity, setActivity] = useState(activityUser);
   const [gender, setGender] = useState(genderUser);
   const [accept, setAccept] = useState(false);
-// console.log(idUser)
+
+
   async function submit(e) {
-    let flag = true;
     e.preventDefault();
     setAccept(true);
+    let flag = true;
+
     if (
       name === "" ||
       age === "" ||
@@ -52,42 +37,45 @@ function getLastSegment(image) {
       gender === ""
     ) {
       flag = false;
-    } else flag = true;
+    }
+
     try {
       if (flag) {
-        let res = await axios.post(
+        let userUpdate = {
+          name: name,
+          age: age,
+          username: username,
+          weight: weight,
+          height: height,
+          activity: activity,
+          gender: gender,
+        };
+
+
+        const res = await axios.post(
           `http://localhost:4500/User/update${idUser}`,
-          {
-            user: {
-              name: name,
-              age: age,
-              username: username,
-              email: email,
-              weight: weight,
-              height: height,
-              activity: activity,
-              gender: gender,
-            },
-          }
+          { user: userUpdate }
         );
-        let user = res.data;
-         console.log(user)
+
+        const updatedUser = res.data;
+
         if (res.status === 201) {
-          window.localStorage.setItem("name", user.name);
-          window.localStorage.setItem("age", user.age);
-          window.localStorage.setItem("username", user.username);
-          window.localStorage.setItem("email", user.email);
-          window.localStorage.setItem("weight", user.weight);
-          window.localStorage.setItem("height", user.height);
-          window.localStorage.setItem("activity", user.activity);
-          window.localStorage.setItem("gender", user.gender);
+          Cookies.set("name", updatedUser.name);
+          Cookies.set("age", updatedUser.age);
+          Cookies.set("username", updatedUser.username);
+          Cookies.set("email", updatedUser.email);
+          Cookies.set("weight", updatedUser.weight);
+          Cookies.set("height", updatedUser.height);
+          Cookies.set("activity", updatedUser.activity);
+          Cookies.set("gender", updatedUser.gender);
           window.location.pathname = "/home";
         }
       }
     } catch (err) {
-      // console.log(err.response.status)
+      console.error("Error updating profile:", err);
     }
   }
+
   return (
     <div className="contanier">
       <div className="row h-100">
@@ -164,21 +152,21 @@ function getLastSegment(image) {
             </div>
 
             <div className="form-control">
-              <label htmlFor="gender">Activity </label>
+              <label htmlFor="activity">Activity</label>
               <select
                 id="Activity"
                 defaultValue={activityUser}
                 onChange={(e) => setActivity(e.target.value)}
                 required
               >
-                <option value="">select your activity</option>
+                <option value="">Select your activity</option>
                 <option value="Little to no exercise">
                   Little to no exercise
                 </option>
                 <option value="Light exercise or sports (1-3 days/week)">
                   Light exercise or sports (1-3 days/week)
                 </option>
-                <option value=" Moderate exercise or sports (4-5 days/week)">
+                <option value="Moderate exercise or sports (4-5 days/week)">
                   Moderate exercise or sports (4-5 days/week)
                 </option>
                 <option value="Hard exercise or sports (6-7 days/week)">
@@ -189,25 +177,27 @@ function getLastSegment(image) {
                 </option>
               </select>
               {activity === "" && accept && (
-                <p className="error">must be choose your activity</p>
+                <p className="error">must choose your activity</p>
               )}
             </div>
+
             <div className="form-control">
-              <label htmlFor="gender">Gender </label>
+              <label htmlFor="gender">Gender</label>
               <select
                 id="gender"
                 defaultValue={genderUser}
                 onChange={(e) => setGender(e.target.value)}
                 required
               >
-                <option value="">selcet your gender</option>
+                <option value="">Select your gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
               </select>
               {gender === "" && accept && (
-                <p className="error">must be choose your gender</p>
+                <p className="error">must choose your gender</p>
               )}
             </div>
+
             <button className="btn2 btn-primary" type="submit">
               Save Changes
             </button>

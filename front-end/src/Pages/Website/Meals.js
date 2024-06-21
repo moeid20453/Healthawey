@@ -14,6 +14,12 @@ export default function Meals() {
               <div>Make meals</div>
             </button>
           </Link>
+          <Link to="/photoupload">
+            <button>
+              <img src={require("../../img/camera.png")} alt="" />
+              <div>Upload Photo</div>
+            </button>
+          </Link>
         </div>
 
         <div className="BreakfastTitle">

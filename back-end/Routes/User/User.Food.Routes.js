@@ -12,7 +12,7 @@ app.get("/AllFood/:id", GetAllFood);
 app.post("/:id", GetFood);
 app.post("/Meal/AddMeal", addMeal);
 app.post("/Meal/Remove/:id", removeMeal);
-app.post("/UserMeals", getUserMeals);
+app.get("/UserMeals/:id", getUserMeals);
 app.post("/searchFood/:id", searchFood);
 
 module.exports = app;

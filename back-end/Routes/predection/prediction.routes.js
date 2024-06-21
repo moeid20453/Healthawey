@@ -23,7 +23,7 @@ app.post("/predict", upload.single("file"), async (req, res) => {
     const response = await axios.post("http://127.0.0.1:5000/predict", form, {
       headers: form.getHeaders(),
     });
-
+console.log(response);
     const { predictions } = response.data;
     console.log(predictions);
 

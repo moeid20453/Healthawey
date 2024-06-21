@@ -1,10 +1,9 @@
 import { Outlet, Navigate } from "react-router-dom";
-
+import Cookies from "js-cookie";
  const ProtectedRoutes= () => {
-     const userget = localStorage.getItem("username")
-     console.log(userget)
+     const userget = Cookies.get("username");
      let user
-     if (userget !== null) {
+     if (userget !== undefined) {
           user=true
      }
      else  user =null

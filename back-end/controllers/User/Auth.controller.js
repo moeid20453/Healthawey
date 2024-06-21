@@ -7,7 +7,7 @@ const {
   attachCookiesToResponse,
 } = require("../../Utilities/jwt");
 const checkPermissions = require("../../Utilities/permission");
-const { SendMail } = require("../../Utilities/emailer");
+const {SendMail}  = require("../../Utilities/emailer");
 
 const register = async (req, res) => {
   try {
@@ -20,6 +20,8 @@ const register = async (req, res) => {
     if (user.success == false) {
       res.status(user.code).json(user.error);
     } else {
+      // const tokenUser = createJWT(user.record._id);
+      // attachCookiesToResponse({ res, user: tokenUser });
       res.status(user.code).json({ user });
     }
   } catch {
@@ -48,34 +50,31 @@ const login = async (req, res) => {
 let sendRandoMail = async (req, res) => {
   try {
     let user = await User.isExist(req.body.user);
-    console.log(user);
+    console.log(user)
     var reciever = req.body.user.email;
     var subject = "OTP Code for ";
     var text = "Please Enter the OTP Code below in the Forget password page";
     var html = `<h5> ${user.data.rando}</h5>`;
     await SendMail(reciever, subject, text, html);
     res.status(user.code).json({ email: user.data.email });
-  } catch (error) {
+  } catch(error) {
     console.error(error);
     res.status(500).json({ error: "Unexpected error" });
-  }
+    }
 };
 let checkOTP = async (req, res) => {
   try {
-    let data = await User.isExist({ email: req.body.user.email });
+    console.log(req.body);
+    let data = await User.isExist({email:req.body.user.email});
     let user = data.data;
     let OTP = req.body.user.OTP;
-    const random_number = Math.floor(Math.random() * 9000) + 1000;
-    let form = { rando: random_number };
+ const random_number = Math.floor(Math.random() * 9000) + 1000;
+ let form = { rando: random_number };
     console.log(user.id);
     if (user.rando == OTP) {
       let success = await User.update(user.id, form);
       console.log(success);
-      res.status(success.code).json({
-        message: "Success",
-        username: success.data.username,
-        id: success.data.id,
-      });
+      res.status(success.code).json({ message: "Success",username:success.data.username,id:success.data.id });
     } else {
       res.status(400).json({ error: "Wrong OTP" });
     }

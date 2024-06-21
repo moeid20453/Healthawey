@@ -3,6 +3,7 @@ import "../assets/reg.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import LoadingSubmit from "../components/Loading/Loading";
+import Cookies from "js-cookie";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [err, setErr] = useState("");
@@ -25,15 +26,16 @@ export default function Login() {
         setLoading(false);
         let user = res.data;
         if (res.status === 200) {
-            window.localStorage.setItem("email", user.email);
+          Cookies.set("email", user.email);
+          // Cookies.set("username",user.username)
             window.location.pathname = "/otp";
         }
       }
     } catch (err) {
       if (err.response.status === 409) {
-        setErr("Email or Password not valid");
+        setErr("Email not valid");
       } else {
-        setErr("Internal server Err");
+        setErr("Email not valid");
       }
       setLoading(false);
     }

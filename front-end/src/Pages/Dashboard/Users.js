@@ -1,72 +1,92 @@
-import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../assets/Dashboard.css";
-import axios from "axios";
-import { Link } from "react-router-dom";
+
 export default function Users() {
   const [users, setUsers] = useState([]);
-  const [runUseState, setRun] = useState(0);
+  const [loading, setLoading] = useState(true); // Loading state
+
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/user/show")
-      .then((res) => res.json())
-      .then((data) => setUsers(data));
-  }, [runUseState]);
+    fetchUsers();
+  }, []); // Fetch users on component mount
 
-  //   useEffect(() => {
-  //     fetch("http://127.0.0.1:8000/api/user/showbyid/1")
-  //       .then((res) => res.json())
-  //       .then((data) => console.log(data));
-  //   }, []);
+  const fetchUsers = () => {
+    fetch("http://localhost:4500/Admin/User/AllUsers")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Data from server:", data); // Log data to inspect its structure
+        if (data && Array.isArray(data.user)) {
+          setUsers(data.user); // Update users state with fetched data
+        } else {
+          throw new Error("Invalid data format");
+        }
+        setLoading(false); // Update loading state when fetch is done
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+        setLoading(false); // Ensure loading state is updated on error
+      });
+  };
 
-  // async function deleteUser(id) {
-  //   try {
-  //     const res = await axios.delete(
-  //       `http://127.0.0.1:8000/api/user/delete/${id}`
-  //     );
-  //     if (res.status === 200) {
-  //       setRun((prev) => prev + 1);
-  //     }
-  //   } catch {
-  //     console.log("none");
-  //   }
-  // }
+  const handleDeleteUser = (userId) => {
+    fetch(`http://localhost:4500/Admin/User/delete/${userId}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to delete user");
+        }
+        // Remove the deleted user from the users state
+        setUsers(users.filter((user) => user._id !== userId));
+      })
+      .catch((error) => {
+        console.error("Error deleting user:", error);
+        // Handle error deleting user
+      });
+  };
 
+  if (loading) {
+    return <p>Loading...</p>; // Render a loading indicator
+  }
 
-
-  const showNumOfUsers = users.length
-  
+  if (!Array.isArray(users) || users.length === 0) {
+    return <p>No users found</p>; // Render a message if no users or not an array
+  }
 
   const showUsers = users.map((user, index) => (
     <tr key={index}>
-      <td>{index + 1}</td>
+      <td>{user._id}</td>
       <td>{user.name}</td>
       <td>{user.email}</td>
-      <td>{user.created_at.substr(0,10)}</td>
-      <td className="icons">
-        <Link to={`${user.id}`}>
-          <FontAwesomeIcon className="update" icon={faPenToSquare} />
-        </Link>
-        {/* <FontAwesomeIcon
-          className="delete"
-          onClick={() => deleteUser(user.id)}
-          icon={faTrash}
-        /> */}
+      <td>{user.age}</td>
+      <td>{user.weight}</td>
+      <td>{user.height}</td>
+      <td>{user.gender}</td>
+      <td>
+        <button onClick={() => handleDeleteUser(user._id)}>Delete</button>
       </td>
     </tr>
   ));
+
   return (
     <div className="body7">
       <div className="numOfUsers">
-        Num of users :<span>{showNumOfUsers}</span>
+        Num of users: <span>{users.length}</span>
       </div>
       <table>
         <thead>
           <tr>
             <th>ID</th>
-            <th>Users</th>
+            <th>Name</th>
             <th>Email</th>
-            <th>Created at</th>
+            <th>Age</th>
+            <th>Weight</th>
+            <th>Height</th>
+            <th>Gender</th>
             <th>Action</th>
           </tr>
         </thead>

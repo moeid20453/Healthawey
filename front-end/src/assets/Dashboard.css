@@ -30,6 +30,7 @@ th{
         color:#fff;
 }
 td{
+    font-size: 12px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -43,7 +44,7 @@ td{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 1100px;
+    margin-left: 1050px;
     margin-top: -65px ;
     text-decoration: none;
     font-size: 30px;
@@ -55,6 +56,7 @@ td{
 }
 .sideBar{
     display: flex;
+    flex-direction: column;
     width: 20%;
     min-height: 100vh;
     border-right:1px solid rgba(0, 0, 0, 0.1) ;
@@ -64,6 +66,7 @@ td{
     display: flex;
 }
 .item-link{
+    margin: 20px;
     text-decoration: none;
     color: black;
 font-size: 30px;

@@ -3,6 +3,7 @@ import "../assets/reg.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import LoadingSubmit from "../components/Loading/Loading";
+import Cookies from "js-cookie";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,18 +27,17 @@ export default function Login() {
         });
         setLoading(false);
         let user = res.data;
-        // console.log(res.data);
-        // console.log(user._id);
         if (res.status === 200) {
-          window.localStorage.setItem("id", user._id);
-          window.localStorage.setItem("name", user.name);
-          window.localStorage.setItem("age", user.age);
-          window.localStorage.setItem("username", user.username);
-          window.localStorage.setItem("email", user.email);
-          window.localStorage.setItem("weight", user.weight);
-          window.localStorage.setItem("height", user.height);
-          window.localStorage.setItem("activity", user.activity);
-          window.localStorage.setItem("gender", user.gender);
+         Cookies.set("id", user._id);
+           Cookies.set("name", user.name);
+           Cookies.set("age", user.age);
+           Cookies.set("username", user.username);
+           Cookies.set("email", user.email);
+          Cookies.set("weight", user.weight);
+           Cookies.set("height", user.height);
+           Cookies.set("activity", user.activity);
+          Cookies.set("gender", user.gender);
+           Cookies.set("role", user.role ,{ httpOnly: false, secure: true });
           window.location.pathname = "/home";
         }
       }
@@ -45,7 +45,7 @@ export default function Login() {
             if (err.response.status === 409) {
               setErr("Email or Password not valid")
             } else {
-              setErr("Internal server Err");
+              setErr("Email or Password not valid");
             }
       setLoading(false);
     }
@@ -87,7 +87,7 @@ export default function Login() {
                 Forget Password ?
               </Link>
               <button className="btn2 btn-primary" type="submit">
-                Sing In
+                Sign In
               </button>
               {err !== "" && <span className="error">{err}</span>}
               <p className="acc2">

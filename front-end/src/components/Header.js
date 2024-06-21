@@ -1,6 +1,8 @@
 import NumOfUserWBB from "./weightBmrBmi";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 export default function header() {
+  const roleUser = Cookies.get("role")
   return (
     <div>
       <header>
@@ -9,19 +11,23 @@ export default function header() {
         </Link>
         <NumOfUserWBB />
         <nav className="navbar">
-        
-            <Link className="nav" to="/home">
-              home
+          { roleUser==="admin" &&
+            <Link className="nav" to="/dashboard/users">
+              dashboard
             </Link>
-            <Link className="nav" to="/about">
-              about
-            </Link>
-            <Link className="nav" to="/contact">
-              contact
-            </Link>
-            <Link className="nav" to="/profile">
+          }
+          <Link className="nav" to="/home">
+            home
+          </Link>
+          <Link className="nav" to="/about">
+            about
+          </Link>
+          <Link className="nav" to="/contact">
+            contact
+          </Link>
+          <Link className="nav" to="/profile">
             My profile
-            </Link>
+          </Link>
         </nav>
       </header>
     </div>

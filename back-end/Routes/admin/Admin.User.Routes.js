@@ -8,6 +8,6 @@ const {
 
 app.post("/user", getUser);
 app.get("/AllUsers", getAllUsers);
-app.delete("/delete/user/:id", deleteUser);
+app.delete("/delete/:id", deleteUser);
 
 module.exports = app;

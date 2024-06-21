@@ -76,3 +76,51 @@ header {
     font-size: 1.7rem;
     padding: 1rem 0;
 }
+
+/* Media Queries for Responsiveness */
+
+/* For tablets and below */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        height: auto;
+        align-items: center;
+    }
+    .logo>img {
+        margin: 10px 0;
+        width: 120px;
+        height: auto;
+    }
+    .navbar {
+        margin: 0;
+        font-size: 18px;
+        width: 100%;
+        justify-content: space-evenly;
+    }
+    .about .row {
+        flex-direction: column;
+        text-align: center;
+    }
+    .about .row .content h3 {
+        font-size: 2rem;
+    }
+    .about .row .content p {
+        font-size: 1.5rem;
+    }
+}
+
+/* For mobile phones */
+@media (max-width: 480px) {
+    .logo>img {
+        width: 100px;
+    }
+    .navbar {
+        font-size: 16px;
+    }
+    .about .row .content h3 {
+        font-size: 1.8rem;
+    }
+    .about .row .content p {
+        font-size: 1.3rem;
+    }
+}

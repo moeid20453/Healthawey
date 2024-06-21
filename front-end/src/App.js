@@ -17,11 +17,17 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import ProtectedOTP from "./ProtectedOTP";
 import Err404 from "./auth/404";
 import MakeMeals from "./Pages/Website/makeMeals";
+import SavedMeals from "./Pages/Website/SavedMeals";
 import Meals from "./Pages/Website/Meals";
+import NutritionForm from "./Pages/Dashboard/addItem";
+import ProtectedAdmin from "./ProtectedAdmin";
+import PhotoUpload from "./Pages/Website/UploadPhoto";
 export default function app() {
   return (
     <div>
       <Routes>
+        <Route path="/photoupload" element={<PhotoUpload />}></Route>
+        <Route path="/meals" element={<Meals />}></Route>
         <Route path="/makemeals" element={<MakeMeals />}></Route>
         <Route path="/*" element={<Err404 />}></Route>
         <Route element={<ProtectedOTP />}>
@@ -32,15 +38,22 @@ export default function app() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/" element={<Login />}></Route>
         <Route element={<ProtectedRoutes />}>
-          <Route path="/meals" element={<Meals />}></Route>
           <Route path="/newpassword" element={<NewPassword />}></Route>
           <Route path="/home" element={<Home />}></Route>
           <Route path="/bmi" element={<BMI />}></Route>
           <Route path="/bmr" element={<BMR />}></Route>
           <Route path="/contact" element={<Contact />}></Route>
           <Route path="/about" element={<About />}></Route>
-          <Route path="/profile" element={<Profile />}></Route>
+          <Route path="/profile" element={<Profile />}>
+            <Route path="savemeals" element={<SavedMeals />} />
+          </Route>
           <Route path="/editProfile" element={<EditProfile />}></Route>
+          <Route element={<ProtectedAdmin />}>
+            <Route path="/dashboard" element={<Dashboard />}>
+              <Route path="users" element={<Users />}></Route>
+              <Route path="addItem" element={<NutritionForm />}></Route>
+            </Route>
+          </Route>
         </Route>
       </Routes>
     </div>

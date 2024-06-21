@@ -1,38 +1,69 @@
 /* SavedMeals.css */
-.savedMealsPage>h2{
-  margin: 20px;
-}
-.savedMealsList {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+
+.mealsBody {
+  width: 100%;
+  background-color: #f0f0f0;
+  padding: 20px;
 }
 
-.mealCard {
-  margin: 20px;
-  color: white;
+.mealsContainer {
+  /* max-width: 800px; */
+  margin: 0 auto;
   background-color: black;
-  padding: 20px;
+  color: white;
+  padding: 50px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.mealCard>div{
+
+.mealItem {
+  color: black;
   margin: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
 }
-.mealCard h3 {
-  margin-top: 0;
+
+.mealItem h3 {
+  font-size: 24px;
   margin-bottom: 10px;
 }
 
-.mealCard ul {
-  padding: 0;
-  list-style-type: none;
+.mealItem p {
+  background-color: white;
+  font-size: 14px;
+  color: black;
+  margin-bottom: 5px;
 }
 
-.mealCard ul li {
-  color: black;
-  background-color: white;
-  margin: 10px;
+.mealDetailItem {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+.mealDetailItem h4 {
+  font-size: 18px;
   margin-bottom: 5px;
-    box-shadow: 0px 2px 2px 0px white;
+}
+
+.mealDetailItem div {
+  font-size: 14px;
+  color: #333;
+}
+
+.mealTotal {
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.mealTotal p {
+  font-size: 14px;
+  color: #333;
+  margin: 5px 0;
 }

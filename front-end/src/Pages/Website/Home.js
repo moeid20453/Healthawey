@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import '../../assets/Home.css';
 import Header from '../../components/Header';
+import Cookies from 'js-cookie';
 export default function Home() {
-  const nameUser = localStorage.getItem("name");  
+  const nameUser = Cookies.get("name"); 
   return (
     <div>
       <Header />
@@ -23,7 +24,7 @@ export default function Home() {
               <div>Calculate BMI</div>
             </button>
           </Link>
-          <Link href="plans.html">
+          <Link to="/meals">
             <button>
               <img src={require("../../img/plan.png")} alt="" />
               <div>Make my meals</div>

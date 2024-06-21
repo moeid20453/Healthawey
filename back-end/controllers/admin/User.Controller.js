@@ -3,7 +3,8 @@ const User = require("../../modules/Users/User.service");
 const deleteUser = async (req, res) => {
   try {
     const id = req.params.id;
-    let deletedUser = await User.remove(id);
+      let deletedUser = await User.remove(id);
+      console.log(deletedUser);
     if (deletedUser.success == true) {
       res.status(deletedUser.code).json(deletedUser.data);
     } else {
@@ -29,9 +30,10 @@ const getUser = async (req, res) => {
 };
 
 const getAllUsers = async (req, res) => {
-  try {
+    try {
     let role = "user";
-    let list = await User.list({ role: role });
+        let list = await User.list({ role: role });
+        
     if (list.success == true) {
       res.status(list.code).json({ user: list.data });
     } else {
